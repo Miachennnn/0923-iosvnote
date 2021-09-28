@@ -1,13 +1,124 @@
+html {
+  height: 100%;
+}
 body {
+  position: relative;
+  height: 100%;
   margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
 code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+  font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
     monospace;
+}
+#root {
+  position: relative;
+  height: 100%;
+}
+.App {
+  position: relative;
+  min-height: 100vh;
+  display: flex;
+  box-sizing: border-box;
+}
+.f-list {
+  flex: 1;
+  background-color: rgba(247, 246, 243, 255);
+  color: rgba(114, 112, 108, 255);
+  box-shadow: 1px 1px yellow;
+  padding: 5px;
+}
+.f-list li {
+  margin: 5px 0;
+}
+/* .f-list li::before {
+  margin: -1px 10px;
+  content: "";
+  display: inline-block;
+  height: 12px;
+  width: 12px;
+  background-image: url("/src/img/folder.svg");
+} */
+.f-list .btn {
+  position: absolute;
+  bottom: 5px;
+}
+.f-list .btn button {
+  background: none;
+  border: none;
+  cursor: pointer;
+}
+.f-list .btn button:hover {
+  color: rgb(49, 49, 49);
+}
+.f li {
+  cursor: pointer;
+}
+.f li:hover {
+  color: black;
+}
+.n {
+  flex: 3;
+  display: flex;
+}
+ul {
+  list-style: none;
+}
+.n-list {
+  padding: 5px;
+  flex: 1;
+  border: #ccc 1px solid;
+}
+.n-list ul {
+  padding-left: 20px;
+  margin-right: 20px;
+}
+.n-list ul li {
+  border-bottom: 1px #ccc solid;
+}
+.n-detail {
+  padding: 5px;
+  flex: 2;
+}
+.svgBtn {
+  cursor: pointer;
+}
+.svgBtnDisable svg {
+  cursor: default;
+  fill: gray;
+}
+.right {
+  float: right;
+}
+a {
+  text-decoration: none;
+  color: inherit;
+}
+.n-list li .focus {
+  background-color: wheat;
+}
+.n-list li .sel {
+  background-color: #eee;
+}
+
+.prefix {
+  margin-right: 5px;
+}
+.yellow {
+  fill: goldenrod;
+}
+.gray {
+  color: #999;
+  fill: #9999;
+}
+.darkgray {
+  color: #3c3c3c;
+}
+.t-bold {
+  font-weight: bold;
+}
+.t-small {
+  font-size: 14px;
 }
