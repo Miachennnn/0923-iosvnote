@@ -4,13 +4,35 @@ import { Link } from "react-router-dom";
 import { folderContext } from "../context/folderContext";
 
 const NoteList = () => {
-  let match = useRouteMatch("/:folder");
+  const match = useRouteMatch("/:folder");
+  const note = useRouteMatch("/:folder/:id");
   const { svgspan, folders, setFolders, defaultFolderName, delString } =
     useContext(folderContext);
 
   let filterFolder = match ? match.params.folder : defaultFolderName;
+  let filterNote = note ? note.params.id : "";
   const delNote = () => {
-    console.log(folders);
+    // 清空最近刪除
+    if (filterFolder === delString) {
+      setFolders({ ...folders, [delString]: [] });
+      return;
+    }
+    //刪除選擇的Note
+    if (filterNote) {
+      Object.entries(folders).map(key => {
+        key[1].filter(item => {
+          if (item.id === filterNote) {
+            let newArray = [];
+            newArray = [...folders[key[0]]].filter(i => i !== item);
+            setFolders({
+              ...folders,
+              [key[0]]: newArray,
+              [delString]: [...folders[delString], item],
+            });
+          }
+        });
+      });
+    }
   };
   const context = (
     <ul>
