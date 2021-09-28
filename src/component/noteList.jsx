@@ -1,5 +1,5 @@
-import React, { useContext } from "react";
-import { useRouteMatch } from "react-router";
+import React, { useContext, useEffect, useState } from "react";
+import { Redirect, useRouteMatch } from "react-router";
 import { Link } from "react-router-dom";
 import { folderContext } from "../context/folderContext";
 
@@ -11,6 +11,15 @@ const NoteList = () => {
 
   let filterFolder = match ? match.params.folder : defaultFolderName;
   let filterNote = note ? note.params.id : "";
+
+  const [redir, setRedir] = useState(false);
+  const redirectTo = () => {
+    return <Redirect to={`/${filterFolder}`} />;
+  };
+  useEffect(() => {
+    if (redir) setRedir(false);
+  }, [redir]);
+
   const delNote = () => {
     // 清空最近刪除
     if (filterFolder === delString) {
@@ -22,13 +31,16 @@ const NoteList = () => {
       Object.entries(folders).map(key => {
         key[1].filter(item => {
           if (item.id === filterNote) {
-            let newArray = [];
-            newArray = [...folders[key[0]]].filter(i => i !== item);
-            setFolders({
-              ...folders,
-              [key[0]]: newArray,
-              [delString]: [...folders[delString], item],
-            });
+            if (key[0] !== delString) {
+              let newArray = [];
+              newArray = [...folders[key[0]]].filter(i => i !== item);
+              setFolders({
+                ...folders,
+                [key[0]]: newArray,
+                [delString]: [...folders[delString], item],
+              });
+              setRedir(true);
+            }
           }
         });
       });
@@ -77,6 +89,7 @@ const NoteList = () => {
       )}
     </ul>
   );
+  if (redir) return redirectTo();
   return (
     <div className="n-list">
       <span className="svgBtn right" onClick={delNote}>
