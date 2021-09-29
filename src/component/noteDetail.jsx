@@ -1,7 +1,9 @@
-import React, { useContext } from "react";
-import { useRouteMatch } from "react-router";
+import React, { useContext, useState, useEffect } from "react";
+import { Redirect, useRouteMatch } from "react-router";
 import { folderContext } from "../context/folderContext";
 import { v4 } from "uuid";
+import MyEditor from "./draft.js/myEditor";
+
 const NoteDetail = () => {
   const { delString, defaultFolderName, folders, setFolders } =
     useContext(folderContext);
@@ -11,26 +13,54 @@ const NoteDetail = () => {
   let nowFolder = matchFolder ? matchFolder.params.folder : defaultFolderName;
   btn = nowFolder === delString ? "svgBtnDisable" : "svgBtn";
 
-  const context = Object.values(folders).map(
+  // const context = Object.entries(folders).map(folder => {
+  //   match &&
+  //     folder[1].map(
+  //       (note, index) =>
+  //         note.id === match.params.id
+  //           ? console.log("fuck")
+  //           : // <React.Fragment key={note.id}>
+  //             //   <MyEditor index={index} note={note} folder={folder[0]} />
+  //             // </React.Fragment>
+  //             null
+  //       // } else return null;
+  //     );
+  // });
+  const context = Object.entries(folders).map(
     folder =>
       match &&
-      folder.map(note => {
+      folder[1].map((note, index) => {
         if (note.id === match.params.id) {
-          return <h1 key={note.id}>{note.context}</h1>;
+          return (
+            <React.Fragment key={note.id}>
+              <MyEditor index={index} note={note} folder={folder[0]} />
+            </React.Fragment>
+          );
         } else return null;
       })
   );
+  const [redir, setRedir] = useState(false);
+  const redirTo = () => {
+    return <Redirect to={`/${nowFolder}/${redir}`} />;
+  };
+  useEffect(() => {
+    if (redir) setRedir(false);
+  }, [redir]);
   const addNote = () => {
     const newNote = {
       title: "新增備忘錄",
       context: "",
       createTime: Date.now(),
       id: v4(),
+      blocks: {},
     };
     //若資料夾存在 新增note
-    if (folders.hasOwnProperty(nowFolder))
+    if (folders.hasOwnProperty(nowFolder)) {
       setFolders({ ...folders, [nowFolder]: [...folders[nowFolder], newNote] });
+      setRedir(newNote.id);
+    }
   };
+  if (redir) return redirTo();
   return (
     <div className="n-detail">
       <div className="nav">
