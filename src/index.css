@@ -33,14 +33,6 @@ code {
 .f-list li {
   margin: 5px 0;
 }
-/* .f-list li::before {
-  margin: -1px 10px;
-  content: "";
-  display: inline-block;
-  height: 12px;
-  width: 12px;
-  background-image: url("/src/img/folder.svg");
-} */
 .f-list .btn {
   position: absolute;
   bottom: 5px;
@@ -102,7 +94,21 @@ a {
 .n-list li .sel {
   background-color: #eee;
 }
-
+div.overflow > span:first-child {
+  overflow: hidden;
+  white-space: nowrap;
+  width: 62px;
+  display: inline-block;
+  margin-right: 50px;
+}
+div.overflow > :not(span:first-child) {
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  width: 150px;
+  display: inline-block;
+}
+/* 超過換行 */
 .prefix {
   margin-right: 5px;
 }

@@ -55,8 +55,8 @@ const NoteList = () => {
               <li key={note.id}>
                 <Link to={`/${key[0]}/${note.id}`}>
                   <div className="t-bold">{note.title}</div>
-                  <div>
-                    <span style={{ marginRight: "10px" }}>
+                  <div className="overflow">
+                    <span>
                       {new Date(note.createTime).toLocaleTimeString()}
                     </span>
                     <span className="darkgray">
@@ -70,18 +70,18 @@ const NoteList = () => {
             key[1].map(note => (
               <li key={note.id}>
                 <Link to={`/${defaultFolderName}/${note.id}`}>
-                  <div className="t-bold">{note.title}</div>
-                  <div>
-                    <span style={{ marginRight: "10px" }}>
+                  <div className="t-bol ">{note.title}</div>
+                  <div className="overflow">
+                    <span>
                       {new Date(note.createTime).toLocaleTimeString()}
                     </span>
-                    <span className="darkgray">
+                    <span className="darkgray ">
                       {note.context === "" ? "沒有其他文字" : note.context}
                     </span>
-                  </div>
-                  <div className="gray t-small">
-                    <span className="gray">{svgspan}</span>
-                    {key[0]}
+                    <div className="gray t-small">
+                      <span className="gray">{svgspan}</span>
+                      {key[0]}
+                    </div>
                   </div>
                 </Link>
               </li>
