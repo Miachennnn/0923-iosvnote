@@ -13,19 +13,6 @@ const NoteDetail = () => {
   let nowFolder = matchFolder ? matchFolder.params.folder : defaultFolderName;
   btn = nowFolder === delString ? "svgBtnDisable" : "svgBtn";
 
-  // const context = Object.entries(folders).map(folder => {
-  //   match &&
-  //     folder[1].map(
-  //       (note, index) =>
-  //         note.id === match.params.id
-  //           ? console.log("fuck")
-  //           : // <React.Fragment key={note.id}>
-  //             //   <MyEditor index={index} note={note} folder={folder[0]} />
-  //             // </React.Fragment>
-  //             null
-  //       // } else return null;
-  //     );
-  // });
   const context = Object.entries(folders).map(
     folder =>
       match &&
@@ -48,8 +35,6 @@ const NoteDetail = () => {
   }, [redir]);
   const addNote = () => {
     const newNote = {
-      title: "新增備忘錄",
-      context: "",
       createTime: Date.now(),
       id: v4(),
       blocks: {},
@@ -81,7 +66,7 @@ const NoteDetail = () => {
           </svg>
         </span>
       </div>
-      <div className="con">{context}</div>
+      {context}
     </div>
   );
 };

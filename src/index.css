@@ -128,3 +128,32 @@ div.overflow > :not(span:first-child) {
 .t-small {
   font-size: 14px;
 }
+.e-btn {
+  font-weight: bold;
+  cursor: pointer;
+  border: none;
+  margin: 0 5px;
+  background-color: #fff;
+}
+.e-btn:hover {
+  background-color: #eee;
+}
+.superFancyBlockquote {
+  color: #999;
+  font-family: "Hoefler Text", Georgia, serif;
+  font-style: italic;
+  text-align: center;
+}
+.Editor {
+  margin: 20px 0;
+}
+.EditorBtn {
+  margin: 10px 0;
+}
+.DraftEditor-root {
+  background-color: orange;
+  border-top: #ccc 1px solid;
+  cursor: text;
+  min-height: 80px;
+  padding: 10px;
+}

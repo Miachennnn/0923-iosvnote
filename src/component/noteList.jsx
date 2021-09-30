@@ -46,46 +46,52 @@ const NoteList = () => {
       });
     }
   };
-  const context = (
+  // 取行內容文字
+  const getLine = (noteBlock, line) => {
+    let blocks = Object.keys(noteBlock).length === 0 ? null : noteBlock;
+    if (blocks !== null) {
+      const findText = blocks.blocks.filter(item => item.text !== "");
+      if (findText[line]) {
+        return findText[line].text;
+      }
+    }
+  };
+  const routerContext = (folder, noteObj, filterFolder) => {
+    return noteObj.map(note => (
+      <li key={note.id}>
+        <Link
+          to={`/${folder === filterFolder ? folder : filterFolder}/${note.id}`}
+        >
+          <div className="t-bold">
+            {getLine(note.blocks, 0) ? getLine(note.blocks, 0) : "新增備忘錄"}
+          </div>
+          <div className="overflow">
+            <span>{new Date(note.createTime).toLocaleTimeString()}</span>
+            <span className="darkgray">
+              {getLine(note.blocks, 1)
+                ? getLine(note.blocks, 1)
+                : "沒有其他文字"}
+            </span>
+          </div>
+          {filterFolder !== folder ? (
+            <div className="gray t-small">
+              <span className="gray">{svgspan}</span>
+              {folder}
+            </div>
+          ) : (
+            ""
+          )}
+        </Link>
+      </li>
+    ));
+  };
+  const noteList = (
     <ul>
       {Object.entries(folders).map(key =>
         filterFolder !== defaultFolderName
           ? filterFolder === key[0] &&
-            key[1].map(note => (
-              <li key={note.id}>
-                <Link to={`/${key[0]}/${note.id}`}>
-                  <div className="t-bold">{note.title}</div>
-                  <div className="overflow">
-                    <span>
-                      {new Date(note.createTime).toLocaleTimeString()}
-                    </span>
-                    <span className="darkgray">
-                      {note.context === "" ? "沒有其他文字" : note.context}
-                    </span>
-                  </div>
-                </Link>
-              </li>
-            ))
-          : key[0] !== delString &&
-            key[1].map(note => (
-              <li key={note.id}>
-                <Link to={`/${defaultFolderName}/${note.id}`}>
-                  <div className="t-bol ">{note.title}</div>
-                  <div className="overflow">
-                    <span>
-                      {new Date(note.createTime).toLocaleTimeString()}
-                    </span>
-                    <span className="darkgray ">
-                      {note.context === "" ? "沒有其他文字" : note.context}
-                    </span>
-                    <div className="gray t-small">
-                      <span className="gray">{svgspan}</span>
-                      {key[0]}
-                    </div>
-                  </div>
-                </Link>
-              </li>
-            ))
+            routerContext(key[0], key[1], filterFolder)
+          : key[0] !== delString && routerContext(key[0], key[1], filterFolder)
       )}
     </ul>
   );
@@ -108,7 +114,7 @@ const NoteList = () => {
           </g>
         </svg>
       </span>
-      {context}
+      {noteList}
     </div>
   );
 };
