@@ -1,21 +1,38 @@
-import React, { useContext, useEffect, useRef, useState } from "react";
-import {
-  convertFromRaw,
-  convertToRaw,
-  Editor,
-  EditorState,
-  RichUtils,
-} from "draft-js";
+import React, { useContext, useRef, useState } from "react";
+import { convertFromRaw, convertToRaw, EditorState, RichUtils } from "draft-js";
+import Editor from "@draft-js-plugins/editor";
+import createLinkifyPlugin from "@draft-js-plugins/linkify";
 import "draft-js/dist/Draft.css";
+import "@draft-js-plugins/linkify/lib/plugin.css";
 import { folderContext } from "../../context/folderContext";
 
 const MyEditor = ({ note, folder, index }) => {
+  const linkifyPlugin = createLinkifyPlugin({
+    component(props) {
+      return (
+        <a
+          {...props}
+          onClick={() => {
+            window.open(props.href);
+          }}
+        />
+      );
+    },
+  });
+  const plugins = [linkifyPlugin];
+
   const { folders, setFolders } = useContext(folderContext);
-  const [editorState, setEditorState] = useState(() =>
-    EditorState.createEmpty()
-  );
+  const [editorState, setEditorState] = useState(() => {
+    let blocks = Object.keys(note).length === 0 ? null : note;
+    if (blocks !== null) {
+      // 預設note資料進editor
+      return EditorState.createWithContent(convertFromRaw(blocks));
+    }
+    return EditorState.createEmpty();
+  });
   //加入一些input
   const handleKeyCommand = (command, editorState) => {
+    console.log("!");
     const newState = RichUtils.handleKeyCommand(editorState, command);
 
     if (newState) {
@@ -25,16 +42,13 @@ const MyEditor = ({ note, folder, index }) => {
 
     return "not-handled";
   };
-  // 預設note資料進editor
-  useEffect(() => {
-    let blocks = Object.keys(note).length === 0 ? null : note;
-    if (blocks !== null) {
-      setEditorState(EditorState.createWithContent(convertFromRaw(blocks)));
-    }
-  }, []);
+
   const handleChange = editorState => {
+    console.log("handleChange");
+    //fix
     let contentState = editorState.getCurrentContent();
     let row = convertToRaw(contentState);
+    console.log(row);
     const folderPosts = folders[folder].slice(0);
     folderPosts[index]["blocks"] = row;
     setFolders({
@@ -91,34 +105,6 @@ const MyEditor = ({ note, folder, index }) => {
   const blockBtnClick = style => {
     setEditorState(RichUtils.toggleBlockType(editorState, style));
   };
-  //LINK
-  // RichUtils.toggleLink(
-  //   editorState: EditorState,
-  //   targetSelection: SelectionState,
-  //   entityKey: string
-  // ): EditorState
-  // const link = () => {
-  //   console.log(editorState);
-  //   const contentState = editorState.getCurrentContent();
-  //   const contentStateWithEntity = contentState.createEntity(
-  //     "LINK",
-  //     "MUTABLE",
-  //     {
-  //       url: "http://www.test.com",
-  //     }
-  //   );
-  //   const entityKey = contentStateWithEntity.getLastCreatedEntityKey();
-  //   const newEditorState = EditorState.set(editorState, {
-  //     currentContent: contentStateWithEntity,
-  //   });
-  //   setEditorState(
-  //     RichUtils.toggleLink(
-  //       newEditorState,
-  //       newEditorState.getSelection(),
-  //       entityKey
-  //     )
-  //   );
-  // };
   const EBtn = () => {
     return list.map((btn, index) => (
       <button
@@ -145,6 +131,7 @@ const MyEditor = ({ note, folder, index }) => {
         handleKeyCommand={handleKeyCommand}
         blockStyleFn={myBlockStyleFn} //區塊樣式
         spellCheck={true} //拼字檢查
+        plugins={plugins}
       />
     </div>
   );

@@ -40,7 +40,6 @@ const Ndiv = styled.div`
 `;
 const Note = () => {
   const { dark } = useContext(folderContext);
-  console.log(dark);
   return (
     <Ndiv className="n" dark={dark}>
       <NoteList />
