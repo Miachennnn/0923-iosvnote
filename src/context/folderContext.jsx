@@ -3,6 +3,8 @@ import { v4 } from "uuid";
 export const folderContext = React.createContext();
 
 const FolderContextProvider = props => {
+  // 顯示右鍵刪除menu
+  const [display, setDisplay] = useState("none");
   const [dark, setDark] = useState(false);
   const svgFolder = (
     <svg className="list-svg" width="12px" height="12px" viewBox="0 0 408 408">
@@ -34,17 +36,291 @@ const FolderContextProvider = props => {
   const defaultFolderName = "所有資料夾";
   const delString = "Recently Deleted";
   //NOTE && Folders
-  const [folders, setFolders] = useState({
-    [defaultFolderName]: [],
-    [delString]: [
+  const defaultFolder = {
+    所有資料夾: [],
+    "Recently Deleted": [
       {
-        createTime: Date.now(),
-        id: v4(),
+        createTime: 1633374048999,
+        id: "a8ed06be-48d0-4d0d-8ad3-a0236cf6f878",
         blocks: {
           blocks: [
             {
-              key: "73fvr",
-              text: "fuck test",
+              key: "6p7d0",
+              text: "對沒錯！",
+              type: "unstyled",
+              depth: 0,
+              inlineStyleRanges: [
+                {
+                  offset: 0,
+                  length: 4,
+                  style: "BOLD",
+                },
+              ],
+              entityRanges: [],
+              data: {},
+            },
+            {
+              key: "6t8q3",
+              text: "這是個刪除測試",
+              type: "header-one",
+              depth: 0,
+              inlineStyleRanges: [
+                {
+                  offset: 0,
+                  length: 7,
+                  style: "UNDERLINE",
+                },
+                {
+                  offset: 0,
+                  length: 7,
+                  style: "CODE",
+                },
+                {
+                  offset: 0,
+                  length: 7,
+                  style: "MARK",
+                },
+              ],
+              entityRanges: [],
+              data: {},
+            },
+          ],
+          entityMap: {},
+        },
+      },
+    ],
+    使用說明: [
+      {
+        createTime: 1633373209163,
+        id: "830a1d39-8cdf-4a17-8ea9-8747acaf70bd",
+        blocks: {
+          blocks: [
+            {
+              key: "8i43s",
+              text: "第一行是Title",
+              type: "unordered-list-item",
+              depth: 0,
+              inlineStyleRanges: [],
+              entityRanges: [],
+              data: {},
+            },
+            {
+              key: "ff5h9",
+              text: "第二行為可預覽的Context超過會顯示...",
+              type: "unordered-list-item",
+              depth: 0,
+              inlineStyleRanges: [],
+              entityRanges: [],
+              data: {},
+            },
+            {
+              key: "bjl3o",
+              text: "可以新增/刪除資料夾",
+              type: "unordered-list-item",
+              depth: 0,
+              inlineStyleRanges: [],
+              entityRanges: [],
+              data: {},
+            },
+            {
+              key: "6tfka",
+              text: "如何刪除？ 在想刪除的資料夾上點右鍵 *注意在此夾裡面的note會一併刪除",
+              type: "blockquote",
+              depth: 0,
+              inlineStyleRanges: [
+                {
+                  offset: 0,
+                  length: 6,
+                  style: "MARK",
+                },
+              ],
+              entityRanges: [],
+              data: {},
+            },
+            {
+              key: "7dclq",
+              text: "可以新增/刪除資料夾內的Note",
+              type: "unordered-list-item",
+              depth: 0,
+              inlineStyleRanges: [],
+              entityRanges: [],
+              data: {},
+            },
+            {
+              key: "7u5sf",
+              text: "右上Toggle可以切換主題樣式(Light/Dark)",
+              type: "unordered-list-item",
+              depth: 0,
+              inlineStyleRanges: [],
+              entityRanges: [],
+              data: {},
+            },
+            {
+              key: "4kg07",
+              text: "可以貼上Link 譬如 https://github.com/Miachennnn",
+              type: "unordered-list-item",
+              depth: 0,
+              inlineStyleRanges: [],
+              entityRanges: [],
+              data: {},
+            },
+          ],
+          entityMap: {},
+        },
+      },
+    ],
+    待辦事項: [
+      {
+        createTime: 1633374102365,
+        id: "a54f5466-b0ba-49bc-875c-79e6b6c15e45",
+        blocks: {
+          blocks: [
+            {
+              key: "3ts0e",
+              text: "將來打算加入其他功能",
+              type: "header-one",
+              depth: 0,
+              inlineStyleRanges: [],
+              entityRanges: [],
+              data: {},
+            },
+            {
+              key: "d2bvs",
+              text: "修改folder名稱 / 修改note所屬的folder",
+              type: "ordered-list-item",
+              depth: 0,
+              inlineStyleRanges: [],
+              entityRanges: [],
+              data: {},
+            },
+            {
+              key: "56h9f",
+              text: "上傳圖片 嗎",
+              type: "ordered-list-item",
+              depth: 0,
+              inlineStyleRanges: [],
+              entityRanges: [],
+              data: {},
+            },
+            {
+              key: "129na",
+              text: "（先喘口氣 之後慢慢修",
+              type: "unstyled",
+              depth: 0,
+              inlineStyleRanges: [
+                {
+                  offset: 0,
+                  length: 11,
+                  style: "ITALIC",
+                },
+              ],
+              entityRanges: [],
+              data: {},
+            },
+          ],
+          entityMap: {},
+        },
+      },
+    ],
+    使用技術: [
+      {
+        createTime: 1633374197675,
+        id: "cfc32235-3257-4cb4-ad87-c9b8b3eab066",
+        blocks: {
+          blocks: [
+            {
+              key: "1ggll",
+              text: "首先是以\bIOS備忘錄來發想",
+              type: "unordered-list-item",
+              depth: 0,
+              inlineStyleRanges: [],
+              entityRanges: [],
+              data: {},
+            },
+            {
+              key: "crb2e",
+              text: "Npx create-react-app指令來建立這個專案",
+              type: "unordered-list-item",
+              depth: 0,
+              inlineStyleRanges: [],
+              entityRanges: [],
+              data: {},
+            },
+            {
+              key: "bv10c",
+              text: "React Hooks / React router",
+              type: "unordered-list-item",
+              depth: 0,
+              inlineStyleRanges: [],
+              entityRanges: [],
+              data: {},
+            },
+            {
+              key: "gead",
+              text: "加入套件uuid產生獨立Id",
+              type: "unordered-list-item",
+              depth: 0,
+              inlineStyleRanges: [],
+              entityRanges: [],
+              data: {},
+            },
+            {
+              key: "cskg0",
+              text: "以及DraftJS做編輯器",
+              type: "unordered-list-item",
+              depth: 0,
+              inlineStyleRanges: [],
+              entityRanges: [],
+              data: {},
+            },
+            {
+              key: "27l3b",
+              text: "加入linkify來做偵測link",
+              type: "unordered-list-item",
+              depth: 0,
+              inlineStyleRanges: [],
+              entityRanges: [],
+              data: {},
+            },
+            {
+              key: "9brn0",
+              text: "然後styled component來便利主題切換",
+              type: "unordered-list-item",
+              depth: 0,
+              inlineStyleRanges: [],
+              entityRanges: [],
+              data: {},
+            },
+            {
+              key: "6gso2",
+              text: "最後加入local storage",
+              type: "unordered-list-item",
+              depth: 0,
+              inlineStyleRanges: [],
+              entityRanges: [],
+              data: {},
+            },
+            {
+              key: "86vg8",
+              text: "大概 ... 以上。",
+              type: "unordered-list-item",
+              depth: 0,
+              inlineStyleRanges: [],
+              entityRanges: [],
+              data: {},
+            },
+            {
+              key: "e9p5h",
+              text: "",
+              type: "unstyled",
+              depth: 0,
+              inlineStyleRanges: [],
+              entityRanges: [],
+              data: {},
+            },
+            {
+              key: "2nsnn",
+              text: "看到這邊有點想關掉拼字檢查...",
               type: "unstyled",
               depth: 0,
               inlineStyleRanges: [],
@@ -56,104 +332,11 @@ const FolderContextProvider = props => {
         },
       },
     ],
-    Folder1: [
-      {
-        createTime: Date.now(),
-        id: v4(),
-        blocks: {
-          blocks: [
-            {
-              key: "a2i67",
-              text: "筆記服務請挑選任一操作載體來設計，例：桌面版、網頁版、Mobile APP",
-              type: "unordered-list-item",
-              depth: 0,
-              inlineStyleRanges: [],
-              entityRanges: [],
-              data: {},
-            },
-            {
-              key: "f0mvh",
-              text: "我可以新增一個筆記，填寫文章內容",
-              type: "unordered-list-item",
-              depth: 0,
-              inlineStyleRanges: [],
-              entityRanges: [],
-              data: {},
-            },
-            {
-              key: "98lr1",
-              text: "我可以將筆記打星號，以方便快速搜尋",
-              type: "unordered-list-item",
-              depth: 0,
-              inlineStyleRanges: [],
-              entityRanges: [],
-              data: {},
-            },
-            {
-              key: "6t43u",
-              text: "我的筆記擁有日/夜間瀏覽模式",
-              type: "unordered-list-item",
-              depth: 0,
-              inlineStyleRanges: [],
-              entityRanges: [],
-              data: {},
-            },
-            {
-              key: "630bv",
-              text: "若您挑選的是 deksop、網頁版筆記服務，在筆記列表上，至少要有兩種以上檢視筆記方式，例如卡片檢視、摘要檢視、純文字列表檢視等等",
-              type: "unordered-list-item",
-              depth: 0,
-              inlineStyleRanges: [],
-              entityRanges: [],
-              data: {},
-            },
-            {
-              key: "174s4",
-              text: "我可以在筆記裡，將文字變成粗體、斜體、下底線等基本樣式，並且載入連結",
-              type: "unordered-list-item",
-              depth: 0,
-              inlineStyleRanges: [],
-              entityRanges: [],
-              data: {},
-            },
-            {
-              key: "81a3d",
-              text: "我可以在筆記裡插入圖片、檔案",
-              type: "unordered-list-item",
-              depth: 0,
-              inlineStyleRanges: [],
-              entityRanges: [],
-              data: {},
-            },
-          ],
-          entityMap: {},
-        },
-      },
-    ],
-    Folder2: [
-      {
-        createTime: Date.now(),
-        id: v4(),
-        blocks: {},
-      },
-      {
-        createTime: Date.now(),
-        id: v4(),
-        blocks: {},
-      },
-      {
-        createTime: Date.now(),
-        id: v4(),
-        blocks: {},
-      },
-    ],
-    Folder3: [
-      {
-        createTime: Date.now(),
-        id: v4(),
-        blocks: {},
-      },
-    ],
+  };
+  const [folders, setFolders] = useState(() => {
+    return localStorage.getItem("folders") === null
+      ? defaultFolder
+      : JSON.parse(localStorage.getItem("folders"));
   });
   //DEL 垃圾桶
   // const [DelNote, setDelNote] = useState({
@@ -166,6 +349,8 @@ const FolderContextProvider = props => {
   return (
     <folderContext.Provider
       value={{
+        display,
+        setDisplay,
         svgFolder,
         delString,
         defaultFolderName,

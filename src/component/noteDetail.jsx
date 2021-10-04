@@ -42,6 +42,13 @@ const NoteDetail = () => {
     //若資料夾存在 新增note
     if (folders.hasOwnProperty(nowFolder)) {
       setFolders({ ...folders, [nowFolder]: [...folders[nowFolder], newNote] });
+      localStorage.setItem(
+        "folders",
+        JSON.stringify({
+          ...folders,
+          [nowFolder]: [...folders[nowFolder], newNote],
+        })
+      );
       setRedir(newNote.id);
     }
   };

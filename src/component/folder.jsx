@@ -1,12 +1,35 @@
 import React, { useContext, useEffect, useState } from "react";
 import { folderContext } from "../context/folderContext";
 import { Link } from "react-router-dom";
+import styled from "styled-components";
+import Menu from "./menu";
+import { set } from "draft-js/lib/EditorState";
+
+const MenuStyle = styled.div`
+  display: ${props => props.display};
+  transition: 0.2s;
+  position: absolute;
+  background: #fff;
+  top: ${props => props.top}px;
+  left: ${props => props.left}px;
+  box-shadow: 1px 3px 3px 1px rgba(0, 0, 0, 0.2);
+  border: 1px solid rgba(0, 0, 0, 1);
+  font-size: small;
+  padding: 1px 5px;
+  &:hover {
+    background: #eee;
+  }
+`;
 const Folder = () => {
+  const [temp, setTemp] = useState("");
+
   let textInput = null;
   useEffect(() => {
     textInput.focus();
   });
   const {
+    display,
+    setDisplay,
     defaultFolderName,
     svgFolder,
     delString,
@@ -17,12 +40,29 @@ const Folder = () => {
   } = useContext(folderContext);
   const hide = adding ? { display: "" } : { display: "none" };
   const [newfolder, setNewFolder] = useState("");
+  const [position, setPosition] = useState({ top: "50px", left: "100px" });
+  const handleMenu = (e, folder) => {
+    e.preventDefault();
+    let x = e.clientX;
+    let y = e.clientY;
+    setPosition({ top: y, left: x });
+    setTemp(folder);
+    setDisplay("");
+  };
 
   // 新建資料夾
   const addFolder = () => {
     if (adding) {
-      if (Object.keys(folders).indexOf(newfolder) === -1 && newfolder)
+      if (Object.keys(folders).indexOf(newfolder) === -1 && newfolder) {
         setFolders({ ...folders, [newfolder.replace(/\//g, "")]: [] });
+        localStorage.setItem(
+          "folders",
+          JSON.stringify({
+            ...folders,
+            [newfolder.replace(/\//g, "")]: [],
+          })
+        );
+      }
     }
     setAdding(false);
   };
@@ -33,13 +73,39 @@ const Folder = () => {
   }, [adding]);
   return (
     <React.Fragment>
+      <MenuStyle
+        className="menuStyle"
+        top={position.top}
+        left={position.left}
+        display={display}
+        onClick={() => {
+          const newFolder = Object.assign(
+            {},
+            ...Object.entries(folders)
+              .filter(([k]) => k !== temp)
+              .map(([k, v]) => ({ [k]: v }))
+          );
+          setFolders(newFolder);
+          localStorage.setItem("folders", JSON.stringify(newFolder));
+          setDisplay("none");
+        }}
+      >
+        <Menu />
+      </MenuStyle>
       <ul>
         {/* 一般資料夾 */}
         {Object.keys(folders).map((folderName, key) =>
           folderName === delString ? (
             ""
           ) : (
-            <li key={key}>
+            <li
+              key={key}
+              onContextMenu={e =>
+                folderName === defaultFolderName
+                  ? ""
+                  : handleMenu(e, folderName)
+              }
+            >
               <span
                 className={
                   folderName === defaultFolderName ? "light" : "yellow"
@@ -58,11 +124,11 @@ const Folder = () => {
             ref={e => {
               textInput = e;
             }}
-            onKeyUp={e => {
-              if (e.key === "Enter") {
-                addFolder();
-              }
-            }}
+            // onKeyUp={e => {
+            //   if (e.key === "Enter") {
+            //     addFolder();
+            //   }
+            // }}
             onBlur={addFolder}
             value={newfolder}
             onChange={e => {

@@ -22,11 +22,18 @@ const Flistdiv = styled.div`
     fill: ${props => (props.dark ? "white" : "")};
   }
 `;
+
 const FolderList = () => {
-  const { dark } = useContext(folderContext);
+  const { dark, setDisplay } = useContext(folderContext);
 
   return (
-    <Flistdiv dark={dark} className="f-list">
+    <Flistdiv
+      className="f-list"
+      dark={dark}
+      onMouseDown={e => {
+        if (e.target.getAttribute("name") !== "menu-del") setDisplay("none");
+      }}
+    >
       <ThemeToggle />
       <Folder />
       <AddFolder />

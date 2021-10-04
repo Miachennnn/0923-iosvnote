@@ -24,6 +24,10 @@ const NoteList = () => {
     // 清空最近刪除
     if (filterFolder === delString) {
       setFolders({ ...folders, [delString]: [] });
+      localStorage.setItem(
+        "folders",
+        JSON.stringify({ ...folders, [delString]: [] })
+      );
       return;
     }
     //刪除選擇的Note
@@ -39,6 +43,14 @@ const NoteList = () => {
                 [key[0]]: newArray,
                 [delString]: [...folders[delString], item],
               });
+              localStorage.setItem(
+                "folders",
+                JSON.stringify({
+                  ...folders,
+                  [key[0]]: newArray,
+                  [delString]: [...folders[delString], item],
+                })
+              );
               setRedir(true);
             }
           }
@@ -62,7 +74,7 @@ const NoteList = () => {
         <Link
           to={`/${folder === filterFolder ? folder : filterFolder}/${note.id}`}
         >
-          <div className="noteListTitle t-bold">
+          <div className="noteListTitle .t-bold">
             {getLine(note.blocks, 0) ? getLine(note.blocks, 0) : "新增備忘錄"}
           </div>
           <div className="noteListTimePrev">

@@ -6,7 +6,7 @@ import { folderContext } from "../context/folderContext";
 
 const Ndiv = styled.div`
   background: ${props => (props.dark ? "rgba(47,52,55,255)" : "white")};
-  a {
+  .n-list a {
     color: ${props => (props.dark ? "rgba(237,237,238,255)" : "#000")};
   }
   .svgBtn {

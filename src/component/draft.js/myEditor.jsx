@@ -32,29 +32,31 @@ const MyEditor = ({ note, folder, index }) => {
   });
   //加入一些input
   const handleKeyCommand = (command, editorState) => {
-    console.log("!");
     const newState = RichUtils.handleKeyCommand(editorState, command);
-
     if (newState) {
       setEditorState(newState);
       return "handled";
     }
-
     return "not-handled";
   };
 
   const handleChange = editorState => {
-    console.log("handleChange");
     //fix
     let contentState = editorState.getCurrentContent();
     let row = convertToRaw(contentState);
-    console.log(row);
     const folderPosts = folders[folder].slice(0);
     folderPosts[index]["blocks"] = row;
     setFolders({
       ...folders,
       [folder]: folderPosts,
     });
+    localStorage.setItem(
+      "folders",
+      JSON.stringify({
+        ...folders,
+        [folder]: folderPosts,
+      })
+    );
 
     setEditorState(editorState);
   };
