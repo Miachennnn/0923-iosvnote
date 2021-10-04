@@ -16,7 +16,6 @@ const MyEditor = ({ note, folder, index }) => {
   );
   //加入一些input
   const handleKeyCommand = (command, editorState) => {
-    console.log(command);
     const newState = RichUtils.handleKeyCommand(editorState, command);
 
     if (newState) {
@@ -28,10 +27,9 @@ const MyEditor = ({ note, folder, index }) => {
   };
   // 預設note資料進editor
   useEffect(() => {
-    let blocks = Object.keys(note.blocks).length === 0 ? null : note.blocks;
+    let blocks = Object.keys(note).length === 0 ? null : note;
     if (blocks !== null) {
-      const contentState = convertFromRaw(blocks);
-      setEditorState(EditorState.createWithContent(contentState));
+      setEditorState(EditorState.createWithContent(convertFromRaw(blocks)));
     }
   }, []);
   const handleChange = editorState => {
@@ -75,15 +73,15 @@ const MyEditor = ({ note, folder, index }) => {
       padding: 2,
     },
     MARK: {
-      backgroundColor: "Yellow",
+      backgroundColor: "gray",
       fontStyle: "italic",
+      color: "white",
     },
   };
   const myBlockStyleFn = contentBlock => {
     const type = contentBlock.getType();
     //block自定義樣式
     if (type === "blockquote") {
-      console.log(type);
       return "superFancyBlockquote";
     }
   };
@@ -93,6 +91,34 @@ const MyEditor = ({ note, folder, index }) => {
   const blockBtnClick = style => {
     setEditorState(RichUtils.toggleBlockType(editorState, style));
   };
+  //LINK
+  // RichUtils.toggleLink(
+  //   editorState: EditorState,
+  //   targetSelection: SelectionState,
+  //   entityKey: string
+  // ): EditorState
+  // const link = () => {
+  //   console.log(editorState);
+  //   const contentState = editorState.getCurrentContent();
+  //   const contentStateWithEntity = contentState.createEntity(
+  //     "LINK",
+  //     "MUTABLE",
+  //     {
+  //       url: "http://www.test.com",
+  //     }
+  //   );
+  //   const entityKey = contentStateWithEntity.getLastCreatedEntityKey();
+  //   const newEditorState = EditorState.set(editorState, {
+  //     currentContent: contentStateWithEntity,
+  //   });
+  //   setEditorState(
+  //     RichUtils.toggleLink(
+  //       newEditorState,
+  //       newEditorState.getSelection(),
+  //       entityKey
+  //     )
+  //   );
+  // };
   const EBtn = () => {
     return list.map((btn, index) => (
       <button
@@ -100,7 +126,7 @@ const MyEditor = ({ note, folder, index }) => {
         onMouseDown={() =>
           index > 4 ? blockBtnClick(btn.style) : styleBtnClick(btn.style)
         }
-        className="e-btn"
+        className="e-btn t-bold"
       >
         {btn.label}
       </button>

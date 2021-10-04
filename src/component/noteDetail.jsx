@@ -20,7 +20,7 @@ const NoteDetail = () => {
         if (note.id === match.params.id) {
           return (
             <React.Fragment key={note.id}>
-              <MyEditor index={index} note={note} folder={folder[0]} />
+              <MyEditor index={index} note={note.blocks} folder={folder[0]} />
             </React.Fragment>
           );
         } else return null;

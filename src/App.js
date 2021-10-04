@@ -1,7 +1,7 @@
 import { BrowserRouter as Router } from "react-router-dom";
-import FolderList from "./component/folderList";
-import Note from "./component/note";
 import FolderContextProvider from "./context/folderContext";
+import Note from "./component/note";
+import FolderList from "./component/folderList";
 
 function App() {
   return (

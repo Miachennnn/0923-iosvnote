@@ -3,10 +3,9 @@ import { v4 } from "uuid";
 export const folderContext = React.createContext();
 
 const FolderContextProvider = props => {
-  //theme toggle
-  const [theme, setTheme] = useState(false);
-  const svgspan = (
-    <svg className="prefix" width="12px" height="12px" viewBox="0 0 408 408">
+  const [dark, setDark] = useState(false);
+  const svgFolder = (
+    <svg className="list-svg" width="12px" height="12px" viewBox="0 0 408 408">
       <g>
         <g>
           <path
@@ -167,15 +166,15 @@ const FolderContextProvider = props => {
   return (
     <folderContext.Provider
       value={{
-        svgspan,
+        svgFolder,
         delString,
         defaultFolderName,
         folders,
         setFolders,
         adding,
         setAdding,
-        theme,
-        setTheme,
+        dark,
+        setDark,
       }}
     >
       {props.children}

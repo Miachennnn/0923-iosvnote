@@ -6,7 +6,7 @@ import { folderContext } from "../context/folderContext";
 const NoteList = () => {
   const match = useRouteMatch("/:folder");
   const note = useRouteMatch("/:folder/:id");
-  const { svgspan, folders, setFolders, defaultFolderName, delString } =
+  const { svgFolder, folders, setFolders, defaultFolderName, delString } =
     useContext(folderContext);
 
   let filterFolder = match ? match.params.folder : defaultFolderName;
@@ -62,25 +62,17 @@ const NoteList = () => {
         <Link
           to={`/${folder === filterFolder ? folder : filterFolder}/${note.id}`}
         >
-          <div className="t-bold">
+          <div className="noteListTitle t-bold">
             {getLine(note.blocks, 0) ? getLine(note.blocks, 0) : "新增備忘錄"}
           </div>
-          <div className="overflow">
-            <span>{new Date(note.createTime).toLocaleTimeString()}</span>
-            <span className="darkgray">
-              {getLine(note.blocks, 1)
-                ? getLine(note.blocks, 1)
-                : "沒有其他文字"}
-            </span>
+          <div className="noteListTimePrev">
+            {new Date(note.createTime).toLocaleTimeString() + " "}
+            {getLine(note.blocks, 1) ? getLine(note.blocks, 1) : "沒有其他文字"}
           </div>
-          {filterFolder !== folder ? (
-            <div className="gray t-small">
-              <span className="gray">{svgspan}</span>
-              {folder}
-            </div>
-          ) : (
-            ""
-          )}
+          <div className="noteListFolder t-small">
+            <span>{svgFolder}</span>
+            {folder}
+          </div>
         </Link>
       </li>
     ));

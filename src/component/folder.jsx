@@ -8,7 +8,7 @@ const Folder = () => {
   });
   const {
     defaultFolderName,
-    svgspan,
+    svgFolder,
     delString,
     folders,
     adding,
@@ -33,24 +33,28 @@ const Folder = () => {
   }, [adding]);
   return (
     <React.Fragment>
-      <ul className="f">
+      <ul>
+        {/* 一般資料夾 */}
         {Object.keys(folders).map((folderName, key) =>
           folderName === delString ? (
             ""
           ) : (
             <li key={key}>
               <span
-                className={folderName === defaultFolderName ? "" : "yellow"}
+                className={
+                  folderName === defaultFolderName ? "light" : "yellow"
+                }
               >
-                {svgspan}
+                {svgFolder}
               </span>
               <Link to={`/${folderName}`}>{folderName}</Link>
             </li>
           )
         )}
-
+        {/* 新增資料夾 */}
         <li style={hide}>
           <input
+            type="text"
             ref={e => {
               textInput = e;
             }}
@@ -66,8 +70,9 @@ const Folder = () => {
             }}
           ></input>
         </li>
+        {/* 垃圾桶 */}
         <li>
-          <span>{svgspan}</span>
+          <span className="light">{svgFolder}</span>
           <Link to={`/${delString}`}>{delString}</Link>
         </li>
       </ul>
