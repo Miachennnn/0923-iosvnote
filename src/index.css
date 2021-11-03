@@ -9,8 +9,7 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
-    monospace;
+  font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New", monospace;
 }
 #root {
   position: relative;
@@ -57,6 +56,9 @@ ul {
   margin-right: 20px;
 }
 .n-detail {
+  overflow: hidden;
+  position: relative;
+  height: 100%;
   padding: 5px;
   flex: 2;
 }
@@ -104,9 +106,10 @@ a > div {
   text-align: center;
 }
 .Editor {
+  position: relative;
+  height: 100%;
   box-sizing: content-box;
   max-width: 700px;
-  min-height: 90%;
 }
 .EditorBtn {
   margin: 10px 0;

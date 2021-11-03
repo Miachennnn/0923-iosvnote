@@ -60,10 +60,10 @@ const MyEditor = ({ note, folder, index }) => {
 
     setEditorState(editorState);
   };
-  const inputEl = useRef(null);
-  const focus = () => {
-    inputEl.current.focus();
-  };
+  // const inputEl = useRef(null);
+  // const focus = () => {
+  //   inputEl.current.focus();
+  // };
   const list = [
     { label: "B", style: "BOLD" },
     { label: "I", style: "ITALIC" },
@@ -109,24 +109,19 @@ const MyEditor = ({ note, folder, index }) => {
   };
   const EBtn = () => {
     return list.map((btn, index) => (
-      <button
-        key={index}
-        onMouseDown={() =>
-          index > 4 ? blockBtnClick(btn.style) : styleBtnClick(btn.style)
-        }
-        className="e-btn t-bold"
-      >
+      <button key={index} onMouseDown={() => (index > 4 ? blockBtnClick(btn.style) : styleBtnClick(btn.style))} className="e-btn t-bold">
         {btn.label}
       </button>
     ));
   };
   return (
-    <div className="Editor" onClick={focus}>
+    // <div className="Editor" onClick={focus}>
+    <div className="Editor">
       <div className="EditorBtn">
         <EBtn />
       </div>
       <Editor
-        ref={inputEl}
+        // ref={inputEl}
         customStyleMap={styleMap} //style樣式
         editorState={editorState}
         onChange={handleChange}
