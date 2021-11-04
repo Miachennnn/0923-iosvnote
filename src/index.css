@@ -1,15 +1,14 @@
+@import url("https://fonts.googleapis.com/css2?family=Noto+Sans+TC&family=Noto+Serif+TC:wght@400;500&family=Roboto+Mono&display=swap");
 html {
   height: 100%;
 }
 body {
+  font-family: "Roboto Mono", monospace;
   position: relative;
   height: 100%;
   margin: 0;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-}
-code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New", monospace;
 }
 #root {
   position: relative;
@@ -114,7 +113,7 @@ a > div {
 }
 .superFancyBlockquote {
   color: #999;
-  font-family: "Hoefler Text", Georgia, serif;
+  /* font-family: "Hoefler Text", Georgia, serif; */
   font-style: italic;
   text-align: center;
 }
