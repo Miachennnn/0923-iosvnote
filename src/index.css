@@ -22,7 +22,7 @@ code {
   box-sizing: border-box;
 }
 .f-list {
-  flex: 0 0 200px;
+  flex: 0 0 250px;
   padding: 5px;
 }
 @media screen and (max-width: 768px) {
@@ -44,8 +44,10 @@ code {
   bottom: 5px;
 }
 .f-list .btn button {
-  background: none;
+  padding: 5px 8px;
+  background-color: rgba(255, 255, 255, 0.8);
   border: none;
+  box-shadow: 1px 3px 3px 1px rgba(0, 0, 0, 0.1);
   cursor: pointer;
 }
 .f li {
@@ -132,6 +134,7 @@ a > div {
 }
 
 div.switch {
+  z-index: 1;
   position: absolute;
   right: 50px;
 }
@@ -143,6 +146,7 @@ div.switch > input {
   border-radius: 15px;
 }
 div.switch > label {
+  cursor: pointer;
   position: absolute;
   top: 0;
   left: 0;

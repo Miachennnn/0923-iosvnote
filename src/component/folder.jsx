@@ -3,19 +3,17 @@ import { folderContext } from "../context/folderContext";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
 import Menu from "./menu";
-import { set } from "draft-js/lib/EditorState";
 
 const MenuStyle = styled.div`
   display: ${props => props.display};
-  transition: 0.2s;
+  cursor: pointer;
   position: absolute;
   background: #fff;
   top: ${props => props.top}px;
   left: ${props => props.left}px;
-  box-shadow: 1px 3px 3px 1px rgba(0, 0, 0, 0.2);
-  border: 1px solid rgba(0, 0, 0, 1);
+  box-shadow: 1px 3px 3px 1px rgba(0, 0, 0, 0.5);
   font-size: small;
-  padding: 1px 5px;
+  padding: 2px 8px;
   &:hover {
     background: #eee;
   }
@@ -27,17 +25,7 @@ const Folder = () => {
   useEffect(() => {
     textInput.focus();
   });
-  const {
-    display,
-    setDisplay,
-    defaultFolderName,
-    svgFolder,
-    delString,
-    folders,
-    adding,
-    setFolders,
-    setAdding,
-  } = useContext(folderContext);
+  const { display, setDisplay, defaultFolderName, svgFolder, delString, folders, adding, setFolders, setAdding } = useContext(folderContext);
   const hide = adding ? { display: "" } : { display: "none" };
   const [newfolder, setNewFolder] = useState("");
   const [position, setPosition] = useState({ top: "50px", left: "100px" });
@@ -68,8 +56,7 @@ const Folder = () => {
   };
   // 預設資料夾名稱
   useEffect(() => {
-    let num = Object.keys(folders).length - 1;
-    setNewFolder("New Folder " + num);
+    setNewFolder("New Folder");
   }, [adding]);
   return (
     <React.Fragment>
@@ -98,21 +85,8 @@ const Folder = () => {
           folderName === delString ? (
             ""
           ) : (
-            <li
-              key={key}
-              onContextMenu={e =>
-                folderName === defaultFolderName
-                  ? ""
-                  : handleMenu(e, folderName)
-              }
-            >
-              <span
-                className={
-                  folderName === defaultFolderName ? "light" : "yellow"
-                }
-              >
-                {svgFolder}
-              </span>
+            <li key={key} onContextMenu={e => (folderName === defaultFolderName ? "" : handleMenu(e, folderName))}>
+              <span className={folderName === defaultFolderName ? "light" : "yellow"}>{svgFolder}</span>
               <Link to={`/${folderName}`}>{folderName}</Link>
             </li>
           )
