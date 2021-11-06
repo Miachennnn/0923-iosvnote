@@ -2,14 +2,14 @@ import React, { useContext } from "react";
 import { folderContext } from "../context/folderContext";
 import AddFolder from "./addfolder";
 import Folder from "./folder";
-import ThemeToggle from "./themeToggle";
 import styled from "styled-components";
 
 const Flistdiv = styled.div`
   background: ${props => (props.dark ? "rgba(55,60,63,255)" : "white")};
-  .btn,
-  button,
   a {
+    color: ${props => (props.dark ? "rgba(237,237,238,255)" : "#000")};
+  }
+  button {
     color: ${props => (props.dark ? "rgba(237,237,238,255)" : "#000")};
   }
   input[type="text"] {
@@ -18,23 +18,17 @@ const Flistdiv = styled.div`
     color: ${props => (props.dark ? "rgba(237,237,238,255)" : "#000")};
     padding: 3px;
   }
-  span.light > .list-svg {
+  span.light {
     fill: ${props => (props.dark ? "white" : "")};
   }
+  ${props => (props.show ? "& {display:block !important}" : "")}
 `;
 
 const FolderList = () => {
-  const { dark, setDisplay } = useContext(folderContext);
+  const { dark, flist } = useContext(folderContext);
 
   return (
-    <Flistdiv
-      className="f-list"
-      dark={dark}
-      onMouseDown={e => {
-        if (e.target.getAttribute("name") !== "menu-del") setDisplay("none");
-      }}
-    >
-      <ThemeToggle />
+    <Flistdiv className="f-list" dark={dark} show={flist}>
       <Folder />
       <AddFolder />
     </Flistdiv>

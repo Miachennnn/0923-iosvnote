@@ -1,44 +1,15 @@
 import React, { useState } from "react";
-import { v4 } from "uuid";
 export const folderContext = React.createContext();
 
 const FolderContextProvider = props => {
-  // 顯示右鍵刪除menu
-  const [display, setDisplay] = useState("none");
   const [dark, setDark] = useState(false);
-  const svgFolder = (
-    <svg className="list-svg" width="12px" height="12px" viewBox="0 0 408 408">
-      <g>
-        <g>
-          <path
-            d="M372,88.661H206.32l-33-39.24c-0.985-1.184-2.461-1.848-4-1.8H36c-19.956,0.198-36.023,16.443-36,36.4v240
-     c-0.001,19.941,16.06,36.163,36,36.36h336c19.94-0.197,36.001-16.419,36-36.36v-199C408.001,105.08,391.94,88.859,372,88.661z"
-          />
-        </g>
-      </g>
-      <g></g>
-      <g></g>
-      <g></g>
-      <g></g>
-      <g></g>
-      <g></g>
-      <g></g>
-      <g></g>
-      <g></g>
-      <g></g>
-      <g></g>
-      <g></g>
-      <g></g>
-      <g></g>
-      <g></g>
-    </svg>
-  );
-  const defaultFolderName = "所有資料夾";
-  const delString = "Recently Deleted";
+  const [flist, setFlist] = useState(false);
+  const defaultFolderName = "所有Note";
+  const delString = "已刪除Note";
   //NOTE && Folders
   const defaultFolder = {
-    所有資料夾: [],
-    "Recently Deleted": [
+    [defaultFolderName]: [],
+    [delString]: [
       {
         createTime: 1633374048999,
         id: "a8ed06be-48d0-4d0d-8ad3-a0236cf6f878",
@@ -332,26 +303,208 @@ const FolderContextProvider = props => {
         },
       },
     ],
+    update: [
+      {
+        createTime: 1636222191892,
+        id: "b91fd89c-d0d8-496f-9f06-97ef939734bd",
+        blocks: {
+          blocks: [
+            {
+              key: "7nn22",
+              text: "更新項目",
+              type: "header-two",
+              depth: 0,
+              inlineStyleRanges: [],
+              entityRanges: [],
+              data: {},
+            },
+            {
+              key: "6hsrr",
+              text: "[路由邏輯]：改成使用 useRouteMatch 做頁面重導向的判斷依據，Route & useParams 控制頁面元件顯示。",
+              type: "unstyled",
+              depth: 0,
+              inlineStyleRanges: [
+                {
+                  offset: 0,
+                  length: 6,
+                  style: "BOLD",
+                },
+              ],
+              entityRanges: [],
+              data: {},
+            },
+            {
+              key: "cu08f",
+              text: "",
+              type: "unstyled",
+              depth: 0,
+              inlineStyleRanges: [],
+              entityRanges: [],
+              data: {},
+            },
+            {
+              key: "18vi7",
+              text: "[Note列表時間顯示]：距離新增時間超過一天顯示日期，反之為時間。",
+              type: "unstyled",
+              depth: 0,
+              inlineStyleRanges: [
+                {
+                  offset: 0,
+                  length: 12,
+                  style: "BOLD",
+                },
+              ],
+              entityRanges: [],
+              data: {},
+            },
+            {
+              key: "56vgc",
+              text: "",
+              type: "unstyled",
+              depth: 0,
+              inlineStyleRanges: [],
+              entityRanges: [],
+              data: {},
+            },
+            {
+              key: "f6n5i",
+              text: "[Note選取樣式]：編輯中的 Note 在左側列表用黃底凸顯。",
+              type: "unstyled",
+              depth: 0,
+              inlineStyleRanges: [
+                {
+                  offset: 0,
+                  length: 10,
+                  style: "BOLD",
+                },
+              ],
+              entityRanges: [],
+              data: {},
+            },
+            {
+              key: "195o6",
+              text: "",
+              type: "unstyled",
+              depth: 0,
+              inlineStyleRanges: [],
+              entityRanges: [],
+              data: {},
+            },
+            {
+              key: "95e0k",
+              text: "[Folder列表顯示]：視窗調整時顯示列表按鈕。",
+              type: "unstyled",
+              depth: 0,
+              inlineStyleRanges: [
+                {
+                  offset: 0,
+                  length: 12,
+                  style: "BOLD",
+                },
+              ],
+              entityRanges: [],
+              data: {},
+            },
+            {
+              key: "a9eae",
+              text: "",
+              type: "unstyled",
+              depth: 0,
+              inlineStyleRanges: [],
+              entityRanges: [],
+              data: {},
+            },
+            {
+              key: "1adn2",
+              text: "[刪除 folder]：從原本右鍵刪除改成滑鼠滑過 Folder 時顯示刪除按鈕。",
+              type: "unstyled",
+              depth: 0,
+              inlineStyleRanges: [
+                {
+                  offset: 0,
+                  length: 11,
+                  style: "BOLD",
+                },
+              ],
+              entityRanges: [],
+              data: {},
+            },
+            {
+              key: "4gecv",
+              text: "",
+              type: "unstyled",
+              depth: 0,
+              inlineStyleRanges: [],
+              entityRanges: [],
+              data: {},
+            },
+            {
+              key: "869rm",
+              text: "[以最新新增時間排序]：最新新增的Note會顯示在最前面。",
+              type: "unstyled",
+              depth: 0,
+              inlineStyleRanges: [
+                {
+                  offset: 0,
+                  length: 11,
+                  style: "BOLD",
+                },
+              ],
+              entityRanges: [],
+              data: {},
+            },
+            {
+              key: "7203q",
+              text: "",
+              type: "unstyled",
+              depth: 0,
+              inlineStyleRanges: [],
+              entityRanges: [],
+              data: {},
+            },
+            {
+              key: "3mls5",
+              text: "[加入提示]：頁面操作提示。",
+              type: "unstyled",
+              depth: 0,
+              inlineStyleRanges: [
+                {
+                  offset: 0,
+                  length: 6,
+                  style: "BOLD",
+                },
+              ],
+              entityRanges: [],
+              data: {},
+            },
+            {
+              key: "3mls5",
+              text: "[禁止編輯]：禁止已經被刪除的 note 編輯。",
+              type: "unstyled",
+              depth: 0,
+              inlineStyleRanges: [
+                {
+                  offset: 0,
+                  length: 6,
+                  style: "BOLD",
+                },
+              ],
+              entityRanges: [],
+              data: {},
+            },
+          ],
+          entityMap: {},
+        },
+      },
+    ],
   };
   const [folders, setFolders] = useState(() => {
-    return localStorage.getItem("folders") === null
-      ? defaultFolder
-      : JSON.parse(localStorage.getItem("folders"));
+    return localStorage.getItem("folders") === null ? defaultFolder : JSON.parse(localStorage.getItem("folders"));
   });
-  //DEL 垃圾桶
-  // const [DelNote, setDelNote] = useState({
-  // Folder3: [],
-  // Folder3: [
-  //   { context: "notenotenote3 test test", createTime: Date.now(), id: v4() },
-  // ],
-  // });
   const [adding, setAdding] = useState(false);
   return (
     <folderContext.Provider
       value={{
-        display,
-        setDisplay,
-        svgFolder,
         delString,
         defaultFolderName,
         folders,
@@ -360,6 +513,8 @@ const FolderContextProvider = props => {
         setAdding,
         dark,
         setDark,
+        flist,
+        setFlist,
       }}
     >
       {props.children}

@@ -1,43 +1,24 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useEffect, useRef, useState } from "react";
 import { folderContext } from "../context/folderContext";
-import { Link } from "react-router-dom";
-import styled from "styled-components";
-import Menu from "./menu";
+import { Link, Redirect } from "react-router-dom";
+import Icons from "./icons";
 
-const MenuStyle = styled.div`
-  display: ${props => props.display};
-  cursor: pointer;
-  position: absolute;
-  background: #fff;
-  top: ${props => props.top}px;
-  left: ${props => props.left}px;
-  box-shadow: 1px 3px 3px 1px rgba(0, 0, 0, 0.5);
-  font-size: small;
-  padding: 2px 8px;
-  &:hover {
-    background: #eee;
-  }
-`;
 const Folder = () => {
-  const [temp, setTemp] = useState("");
+  const { defaultFolderName, delString, folders, adding, setFolders, setAdding } = useContext(folderContext);
 
-  let textInput = null;
-  useEffect(() => {
-    textInput.focus();
-  });
-  const { display, setDisplay, defaultFolderName, svgFolder, delString, folders, adding, setFolders, setAdding } = useContext(folderContext);
   const hide = adding ? { display: "" } : { display: "none" };
   const [newfolder, setNewFolder] = useState("");
-  const [position, setPosition] = useState({ top: "50px", left: "100px" });
-  const handleMenu = (e, folder) => {
-    e.preventDefault();
-    let x = e.clientX;
-    let y = e.clientY;
-    setPosition({ top: y, left: x });
-    setTemp(folder);
-    setDisplay("");
-  };
 
+  const [redir, setRedir] = useState(false);
+
+  // 刪除資料夾
+  const handleRemoveFolder = folder => {
+    const { [folder]: removeNotes, ...diffFolder } = folders;
+    const newFolder = { ...diffFolder, [delString]: [...removeNotes, ...folders[delString]] };
+    setFolders(newFolder);
+    localStorage.setItem("folders", JSON.stringify(newFolder));
+    setRedir(true);
+  };
   // 新建資料夾
   const addFolder = () => {
     if (adding) {
@@ -54,55 +35,39 @@ const Folder = () => {
     }
     setAdding(false);
   };
-  // 預設資料夾名稱
+  const folderNameInput = useRef();
   useEffect(() => {
-    setNewFolder("New Folder");
+    folderNameInput.current.focus();
+    setNewFolder("新資料夾");
   }, [adding]);
+  if (redir) {
+    return <Redirect to="/" />;
+  }
   return (
     <React.Fragment>
-      <MenuStyle
-        className="menuStyle"
-        top={position.top}
-        left={position.left}
-        display={display}
-        onClick={() => {
-          const newFolder = Object.assign(
-            {},
-            ...Object.entries(folders)
-              .filter(([k]) => k !== temp)
-              .map(([k, v]) => ({ [k]: v }))
-          );
-          setFolders(newFolder);
-          localStorage.setItem("folders", JSON.stringify(newFolder));
-          setDisplay("none");
-        }}
-      >
-        <Menu />
-      </MenuStyle>
       <ul>
-        {/* 一般資料夾 */}
-        {Object.keys(folders).map((folderName, key) =>
-          folderName === delString ? (
-            ""
-          ) : (
-            <li key={key} onContextMenu={e => (folderName === defaultFolderName ? "" : handleMenu(e, folderName))}>
-              <span className={folderName === defaultFolderName ? "light" : "yellow"}>{svgFolder}</span>
-              <Link to={`/${folderName}`}>{folderName}</Link>
-            </li>
-          )
+        {Object.keys(folders).map(
+          (folderName, key) =>
+            folderName !== delString && (
+              <li key={key}>
+                <span className={folderName === defaultFolderName ? "light" : "yellow"}>
+                  <Icons.IconFolder className="list-svg" width="12px" height="12px" />
+                </span>
+                <Link to={`/${folderName}`}>{folderName}</Link>
+                {folderName !== defaultFolderName && <Icons.IconDelNote onClick={() => handleRemoveFolder(folderName)} className="right yellow none" />}
+              </li>
+            )
         )}
         {/* 新增資料夾 */}
         <li style={hide}>
           <input
             type="text"
-            ref={e => {
-              textInput = e;
+            ref={folderNameInput}
+            onKeyUp={e => {
+              if (e.key === "Enter") {
+                addFolder();
+              }
             }}
-            // onKeyUp={e => {
-            //   if (e.key === "Enter") {
-            //     addFolder();
-            //   }
-            // }}
             onBlur={addFolder}
             value={newfolder}
             onChange={e => {
@@ -110,9 +75,10 @@ const Folder = () => {
             }}
           ></input>
         </li>
-        {/* 垃圾桶 */}
         <li>
-          <span className="light">{svgFolder}</span>
+          <span className="light">
+            <Icons.IconFolder className="list-svg" width="12px" height="12px" />
+          </span>
           <Link to={`/${delString}`}>{delString}</Link>
         </li>
       </ul>

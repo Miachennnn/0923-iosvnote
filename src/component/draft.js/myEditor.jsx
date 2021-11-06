@@ -1,12 +1,14 @@
-import React, { useContext, useRef, useState } from "react";
+import React, { useContext, useState } from "react";
 import { convertFromRaw, convertToRaw, EditorState, RichUtils } from "draft-js";
 import Editor from "@draft-js-plugins/editor";
 import createLinkifyPlugin from "@draft-js-plugins/linkify";
 import "draft-js/dist/Draft.css";
 import "@draft-js-plugins/linkify/lib/plugin.css";
 import { folderContext } from "../../context/folderContext";
+import { format } from "date-fns";
+import { zhTW } from "date-fns/locale";
 
-const MyEditor = ({ note, folder, index }) => {
+const MyEditor = ({ notes, note, folder, index }) => {
   const linkifyPlugin = createLinkifyPlugin({
     component(props) {
       return (
@@ -15,13 +17,15 @@ const MyEditor = ({ note, folder, index }) => {
           onClick={() => {
             window.open(props.href);
           }}
-        />
+        >
+          {props.children}
+        </a>
       );
     },
   });
   const plugins = [linkifyPlugin];
 
-  const { folders, setFolders } = useContext(folderContext);
+  const { folders, setFolders, delString } = useContext(folderContext);
   const [editorState, setEditorState] = useState(() => {
     let blocks = Object.keys(note).length === 0 ? null : note;
     if (blocks !== null) {
@@ -57,13 +61,8 @@ const MyEditor = ({ note, folder, index }) => {
         [folder]: folderPosts,
       })
     );
-
     setEditorState(editorState);
   };
-  // const inputEl = useRef(null);
-  // const focus = () => {
-  //   inputEl.current.focus();
-  // };
   const list = [
     { label: "B", style: "BOLD" },
     { label: "I", style: "ITALIC" },
@@ -74,8 +73,6 @@ const MyEditor = ({ note, folder, index }) => {
     { label: "H2", style: "header-two" },
     { label: "H3", style: "header-three" },
     { label: "H4", style: "header-four" },
-    { label: "H5", style: "header-five" },
-    { label: "H6", style: "header-six" },
     { label: "Blockquote", style: "blockquote" },
     { label: "UL", style: "unordered-list-item" },
     { label: "OL", style: "ordered-list-item" },
@@ -101,27 +98,21 @@ const MyEditor = ({ note, folder, index }) => {
       return "superFancyBlockquote";
     }
   };
-  const styleBtnClick = style => {
-    setEditorState(RichUtils.toggleInlineStyle(editorState, style));
-  };
-  const blockBtnClick = style => {
-    setEditorState(RichUtils.toggleBlockType(editorState, style));
-  };
-  const EBtn = () => {
-    return list.map((btn, index) => (
-      <button key={index} onMouseDown={() => (index > 4 ? blockBtnClick(btn.style) : styleBtnClick(btn.style))} className="e-btn t-bold">
-        {btn.label}
-      </button>
-    ));
+  const BtnClick = (style, type) => {
+    type === "styleBtn" ? setEditorState(RichUtils.toggleInlineStyle(editorState, style)) : setEditorState(RichUtils.toggleBlockType(editorState, style));
   };
   return (
-    // <div className="Editor" onClick={focus}>
     <div className="Editor">
-      <div className="EditorBtn">
-        <EBtn />
+      <div className="EditorBtn ">
+        {list.map((btn, index) => (
+          <button key={index} onMouseDown={() => (index > 4 ? BtnClick(btn.style, "blockBtn") : BtnClick(btn.style, "styleBtn"))} className="e-btn t-bold">
+            {btn.label}
+          </button>
+        ))}
+        <p style={{ textAlign: "center" }}>{format(notes.createTime, "yyyy年MM月dd日 p", { locale: zhTW })}</p>
       </div>
       <Editor
-        // ref={inputEl}
+        readOnly={folder === delString && true}
         customStyleMap={styleMap} //style樣式
         editorState={editorState}
         onChange={handleChange}
